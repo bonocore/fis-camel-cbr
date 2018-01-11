@@ -58,10 +58,10 @@ public class Application extends RouteBuilder {
         //from("servlet:///hello").transform().constant("Hello from Camel!");
     	from("servlet:///hello")
     		.choice()
-    			.when(header("site").isEqualTo("repubblica"))
-    					.to("http4://www.repubblica.it?bridgeEndpoint=true")
-    		    .when(header("site").isEqualTo("corriere"))		
-    					.to("http4://www.corriere.it?bridgeEndpoint=true")
+    			.when(header("site").isEqualTo("beer"))
+    					.to("http4://beer?bridgeEndpoint=true")
+    		    .when(header("site").isEqualTo("pizza"))		
+    					.to("http4://pizza?bridgeEndpoint=true")
     		    .otherwise()		
     					.to("http4://www.ilfattoquotidiano.it?bridgeEndpoint=true");
     	
