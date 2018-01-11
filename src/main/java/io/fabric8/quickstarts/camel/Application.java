@@ -54,18 +54,17 @@ public class Application extends RouteBuilder {
     }
     @Override
     public void configure() throws Exception {
-    	// Access us using http://localhost:8080/camel/hello
-        //from("servlet:///hello").transform().constant("Hello from Camel!");
-    	from("servlet:///hello")
-    		.choice()
-    			.when(header("site").isEqualTo("beer"))
-    					.to("http4://beer?bridgeEndpoint=true")
-    		    .when(header("site").isEqualTo("pizza"))		
-    					.to("http4://pizza?bridgeEndpoint=true")
-    		    .otherwise()		
-    					.to("http4://www.ilfattoquotidiano.it?bridgeEndpoint=true");
+//  
+//    	from("servlet:///hello")
+//    		.choice()
+//    			.when(header("site").isEqualTo("beer"))
+//    					.to("http4://beer?bridgeEndpoint=true")
+//    		    .when(header("site").isEqualTo("pizza"))		
+//    					.to("http4://pizza?bridgeEndpoint=true")
+//    		    .otherwise()		
+//    					.to("http4://www.ilfattoquotidiano.it?bridgeEndpoint=true");
     	
         // Trigger run right after startup. No Servlet request required.
-        //from("timer://foo?fixedRate=true&period=10s").log("Camel timer triggered.");
+        from("timer://foo?fixedRate=true&period=10s").log("{{cbr.hello}}");
     }
 }
