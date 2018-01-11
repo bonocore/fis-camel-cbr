@@ -52,19 +52,20 @@ public class Application extends RouteBuilder {
         registration.setLoadOnStartup(1);
         return registration;
     }
-
-//    @Bean
-//    public SpringCamelContext camelContext(ApplicationContext applicationContext) throws Exception {
-//        SpringCamelContext camelContext = new SpringCamelContext(applicationContext);
-//        camelContext.addRoutes(routeBuilder());
-//        return camelContext;
-//    }
     @Override
     public void configure() throws Exception {
     	// Access us using http://localhost:8080/camel/hello
-        from("servlet:///hello").transform().constant("Hello from Camel!");
-
+        //from("servlet:///hello").transform().constant("Hello from Camel!");
+    	from("servlet:///hello")
+    		.choice()
+    			.when(header("site").isEqualTo("repubblica"))
+    					.to("http4://www.repubblica.it?bridgeEndpoint=true")
+    		    .when(header("site").isEqualTo("corriere"))		
+    					.to("http4://www.corriere.it?bridgeEndpoint=true")
+    		    .otherwise()		
+    					.to("http4://www.ilfattoquotidiano.it?bridgeEndpoint=true");
+    	
         // Trigger run right after startup. No Servlet request required.
-        from("timer://foo?fixedRate=true&period=10s").log("Camel timer triggered.");
+        //from("timer://foo?fixedRate=true&period=10s").log("Camel timer triggered.");
     }
 }
