@@ -16,9 +16,20 @@
 package io.fabric8.quickstarts.camel;
 
 import org.apache.camel.builder.RouteBuilder;
+import org.apache.camel.component.servlet.CamelHttpTransportServlet;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.web.servlet.ServletRegistrationBean;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ImportResource;
+import org.apache.camel.builder.RouteBuilder;
+import org.apache.camel.spring.SpringCamelContext;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Configuration;
 
 /**
  * A spring-boot application that includes a Camel route builder to setup the Camel routes
@@ -27,11 +38,27 @@ import org.springframework.context.annotation.ImportResource;
 @ImportResource({"classpath:spring/camel-context.xml"})
 public class Application extends RouteBuilder {
 
+	private static final String CAMEL_URL_MAPPING = "/camel/*";
+	private static final String CAMEL_SERVLET_NAME = "CamelServlet";
+	    
     // must have a main method spring-boot can run
     public static void main(String[] args) {
         SpringApplication.run(Application.class, args);
     }
+    @Bean
+    public ServletRegistrationBean servletRegistrationBean() {
+        ServletRegistrationBean registration = new ServletRegistrationBean(new CamelHttpTransportServlet(), CAMEL_URL_MAPPING);
+        registration.setName(CAMEL_SERVLET_NAME);
+        registration.setLoadOnStartup(1);
+        return registration;
+    }
 
+//    @Bean
+//    public SpringCamelContext camelContext(ApplicationContext applicationContext) throws Exception {
+//        SpringCamelContext camelContext = new SpringCamelContext(applicationContext);
+//        camelContext.addRoutes(routeBuilder());
+//        return camelContext;
+//    }
     @Override
     public void configure() throws Exception {
     	// Access us using http://localhost:8080/camel/hello
