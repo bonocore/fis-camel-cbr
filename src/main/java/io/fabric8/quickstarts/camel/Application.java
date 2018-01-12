@@ -55,16 +55,22 @@ public class Application extends RouteBuilder {
     @Override
     public void configure() throws Exception {
   
-    	from("servlet:///hello")
-    		.choice()
-    			.when(header("{{cbr.headername}}").isEqualTo("{{cbr.headervalue1}}"))
+    	from("servlet:///cbr")
+  		.choice()
+    			.when(header("site").isEqualTo(simple("{{cbr.headervalue1}}")))
     					.to("http4://{{cbr.headersite1}}?bridgeEndpoint=true")
-    		    .when(header("{{cbr.headername}}").isEqualTo("{{cbr.headervalue2}}"))		
+    		    .when(header("site").isEqualTo(simple("{{cbr.headervalue2}}")))		
     					.to("http4://{{cbr.headersite2}}?bridgeEndpoint=true")
-    		    .otherwise()		
-    					.to("http4://{{cbr.headersitedefault}}?bridgeEndpoint=true");
+				.otherwise()		
+					.to("http4://{{cbr.headersitedefault}}?bridgeEndpoint=true");
     	
         // Trigger run right after startup. No Servlet request required.
-     //   from("timer://foo?fixedRate=true&period=10s").log("{{cbr.hello}}");
+        from("servlet:///props").transform(simple(
+        		"cbr.headername: {{cbr.headername}} \n"
+        		+ "cbr.headervalue1: {{cbr.headervalue1}} \n"
+        		+ "cbr.headervalue2: {{cbr.headervalue2}} \n"
+        		+ "cbr.headersite1: {{cbr.headersite1}} \n"
+        		+ "cbr.headersite2: {{cbr.headersite2}} \n"
+        		+ "cbr.headersitedefault: {{cbr.headersitedefault}}"));
     }
 }

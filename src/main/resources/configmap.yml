@@ -4,11 +4,9 @@ metadata:
   # Must match the 'spring.application.name' property of the application
   name: camelcbr
 data:
-  application.properties:
-    # Override the configuration properties here
-    cbr.headername=site
-    cbr.headervalue1=pizza
-    cbr.headervalue2=beer
-    cbr.headersite1=pizza-test.apps.35.196.103.71.nip.io
-    cbr.headersite2=beer-test.apps.35.196.103.71.nip.io
-    cbr.headersitedefault=www.openshift.com
+  application.properties: |- 
+    cbr.headervalue1: pizza
+    cbr.headervalue2: beer
+    cbr.headersite1: pizza-test.apps.35.196.103.71.nip.io
+    cbr.headersite2: beer-test.apps.35.196.103.71.nip.io
+    cbr.headersitedefault: www.openshift.com
