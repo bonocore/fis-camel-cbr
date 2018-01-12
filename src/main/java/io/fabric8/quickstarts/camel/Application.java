@@ -66,8 +66,7 @@ public class Application extends RouteBuilder {
     	
         // Trigger run right after startup. No Servlet request required.
         from("servlet:///props").transform(simple(
-        		"cbr.headername: {{cbr.headername}} \n"
-        		+ "cbr.headervalue1: {{cbr.headervalue1}} \n"
+        		 "cbr.headervalue1: {{cbr.headervalue1}} \n"
         		+ "cbr.headervalue2: {{cbr.headervalue2}} \n"
         		+ "cbr.headersite1: {{cbr.headersite1}} \n"
         		+ "cbr.headersite2: {{cbr.headersite2}} \n"
