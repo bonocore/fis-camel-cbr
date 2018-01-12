@@ -58,11 +58,11 @@ public class Application extends RouteBuilder {
     	from("servlet:///cbr")
   		.choice()
     			.when(header("site").isEqualTo(simple("{{cbr.headervalue1}}")))
-    					.to("http4://{{cbr.headersite1}}?bridgeEndpoint=true")
+    					.to("http4://{{cbr.headersite1}}?bridgeEndpoint=true&throwExceptionOnFailure=false")
     		    .when(header("site").isEqualTo(simple("{{cbr.headervalue2}}")))		
-    					.to("http4://{{cbr.headersite2}}?bridgeEndpoint=true")
+    					.to("http4://{{cbr.headersite2}}?bridgeEndpoint=true&throwExceptionOnFailure=false")
 				.otherwise()		
-					.to("http4://{{cbr.headersitedefault}}?bridgeEndpoint=true");
+					.to("http4://{{cbr.headersitedefault}}?bridgeEndpoint=true&throwExceptionOnFailure=false");
     	
         // Trigger run right after startup. No Servlet request required.
         from("servlet:///props").transform(simple(

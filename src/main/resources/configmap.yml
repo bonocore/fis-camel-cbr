@@ -7,6 +7,6 @@ data:
   application.properties: |- 
     cbr.headervalue1: pizza
     cbr.headervalue2: beer
-    cbr.headersite1: pizza-test.apps.35.196.103.71.nip.io
-    cbr.headersite2: beer-test.apps.35.196.103.71.nip.io
+    cbr.headersite1: pizza.test.svc.cluster.local:8080
+    cbr.headersite2: beer.test.svc.cluster.local:8080
     cbr.headersitedefault: www.openshift.com
