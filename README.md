@@ -56,21 +56,43 @@ You can also use the [fabric8 developer console](http://fabric8.io/guide/console
 
 #### Integration Testing
 
-The example includes a [fabric8 arquillian](https://github.com/fabric8io/fabric8/tree/master/components/fabric8-arquillian) Kubernetes Integration Test. 
+The example includes a [fabric8 arquillian](https://github.com/fabric8io/fabric8/tree/master/components/fabric8-arquillian) Kubernetes Integration Test.
 Once the container image has been built and deployed in Kubernetes, the integration test can be run with:
 
 	mvn test -Dtest=*KT
 
-The test is disabled by default and has to be enabled using `-Dtest`. [Integration Testing](https://fabric8.io/guide/testing.html) and [Fabric8 Arquillian Extension](https://fabric8.io/guide/arquillian.html) provide more information on writing full fledged black box integration tests for Kubernetes. 
+The test is disabled by default and has to be enabled using `-Dtest`. [Integration Testing](https://fabric8.io/guide/testing.html) and [Fabric8 Arquillian Extension](https://fabric8.io/guide/arquillian.html) provide more information on writing full fledged black box integration tests for Kubernetes.
 
 ### More details
 
 You can find more details about running this [quickstart](http://fabric8.io/guide/quickstarts/running.html) on the website. This also includes instructions how to change the Docker image user and registry.
 
-
 ### Config map
 In order to create the config map:
-oc create -f ./src/main/resources/configmap.yml 
-In order to give the right permissions:
-oc policy add-role-to-user view system:serviceaccount:test:default -n test
 
+```
+oc create -f ./src/main/resources/configmap.yml
+```
+In order to give the right permissions (to read the CM):
+```
+oc policy add-role-to-user view system:serviceaccount:PROJECTNAME:default -n PROJECTNAME
+```
+Here you can view the props currently loaded:
+
+```
+YOURAPPURL/camel/props
+```
+### Testing the app
+
+In order to test content based routing, you have to expose the service:
+
+```
+oc expose s2i-spring-boot-camel --port=8080
+oc expose service/s2i-spring-boot-camel
+```
+Then you can query the app (using CURL or any browser with a plugin to manipulate HTTP headers) at:
+```
+YOURAPPURL/camel/cbr
+```
+
+In the default config, the app listen for an http header named "site", and switch you to one website, if the value is "pizza", to another one if the value is "beer"
