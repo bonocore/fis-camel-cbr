@@ -9,6 +9,6 @@ data:
     cbr.headername=site
     cbr.headervalue1=pizza
     cbr.headervalue2=beer
-    cbr.headersite1=http://pizza-test.apps.35.196.103.71.nip.io/
-    cbr.headersite2=http://beer-test.apps.35.196.103.71.nip.io/
-    cbr.headersitedefault=https://www.openshift.com/
+    cbr.headersite1=pizza-test.apps.35.196.103.71.nip.io
+    cbr.headersite2=beer-test.apps.35.196.103.71.nip.io
+    cbr.headersitedefault=www.openshift.com
