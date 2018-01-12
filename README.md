@@ -67,3 +67,10 @@ The test is disabled by default and has to be enabled using `-Dtest`. [Integrati
 
 You can find more details about running this [quickstart](http://fabric8.io/guide/quickstarts/running.html) on the website. This also includes instructions how to change the Docker image user and registry.
 
+
+### Config map
+In order to create the config map:
+oc create -f ./src/main/resources/configmap.yml 
+In order to give the right permissions:
+oc policy add-role-to-user view system:serviceaccount:test:default -n test
+

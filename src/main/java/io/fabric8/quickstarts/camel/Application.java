@@ -54,17 +54,17 @@ public class Application extends RouteBuilder {
     }
     @Override
     public void configure() throws Exception {
-//  
-//    	from("servlet:///hello")
-//    		.choice()
-//    			.when(header("site").isEqualTo("beer"))
-//    					.to("http4://beer?bridgeEndpoint=true")
-//    		    .when(header("site").isEqualTo("pizza"))		
-//    					.to("http4://pizza?bridgeEndpoint=true")
-//    		    .otherwise()		
-//    					.to("http4://www.ilfattoquotidiano.it?bridgeEndpoint=true");
+  
+    	from("servlet:///hello")
+    		.choice()
+    			.when(header("{{cbr.headername}}").isEqualTo("{{cbr.headervalue1}}"))
+    					.to("http4://{{cbr.headersite1}}?bridgeEndpoint=true")
+    		    .when(header("{{cbr.headername}}").isEqualTo("{{cbr.headervalue2}}"))		
+    					.to("http4://{{cbr.headersite2}}?bridgeEndpoint=true")
+    		    .otherwise()		
+    					.to("http4://{{cbr.headersitedefault}}?bridgeEndpoint=true");
     	
         // Trigger run right after startup. No Servlet request required.
-        from("timer://foo?fixedRate=true&period=10s").log("{{cbr.hello}}");
+     //   from("timer://foo?fixedRate=true&period=10s").log("{{cbr.hello}}");
     }
 }
