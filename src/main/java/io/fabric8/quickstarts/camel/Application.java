@@ -40,7 +40,7 @@ public class Application extends RouteBuilder {
 
 	private static final String CAMEL_URL_MAPPING = "/camel/*";
 	private static final String CAMEL_SERVLET_NAME = "CamelServlet";
-	    
+
     // must have a main method spring-boot can run
     public static void main(String[] args) {
         SpringApplication.run(Application.class, args);
@@ -54,22 +54,18 @@ public class Application extends RouteBuilder {
     }
     @Override
     public void configure() throws Exception {
-  
+
     	from("servlet:///cbr")
   		.choice()
-    			.when(header("site").isEqualTo(simple("{{cbr.headervalue1}}")))
-    					.to("http4://{{cbr.headersite1}}?bridgeEndpoint=true&throwExceptionOnFailure=false")
-    		    .when(header("site").isEqualTo(simple("{{cbr.headervalue2}}")))		
-    					.to("http4://{{cbr.headersite2}}?bridgeEndpoint=true&throwExceptionOnFailure=false")
-				.otherwise()		
-					.to("http4://{{cbr.headersitedefault}}?bridgeEndpoint=true&throwExceptionOnFailure=false");
-    	
+    			.when(header("site").isEqualTo(simple("{{cbr.headerNewVersion}}")))
+    					.to("http4://{{cbr.urlNewVersion}}?bridgeEndpoint=true&throwExceptionOnFailure=false")
+				.otherwise()
+					.to("http4://{{cbr.urlDefaultVersion}}?bridgeEndpoint=true&throwExceptionOnFailure=false");
+
         // Trigger run right after startup. No Servlet request required.
         from("servlet:///props").transform(simple(
-        		 "cbr.headervalue1: {{cbr.headervalue1}} \n"
-        		+ "cbr.headervalue2: {{cbr.headervalue2}} \n"
-        		+ "cbr.headersite1: {{cbr.headersite1}} \n"
-        		+ "cbr.headersite2: {{cbr.headersite2}} \n"
-        		+ "cbr.headersitedefault: {{cbr.headersitedefault}}"));
+        		 "cbr.headerNewVersion: {{cbr.headerNewVersion}} \n"
+        		+ "cbr.urlNewVersion: {{cbr.urlNewVersion}} \n"
+        		+ "cbr.urlDefaultVersion: {{cbr.urlDefaultVersion}}"));
     }
 }
