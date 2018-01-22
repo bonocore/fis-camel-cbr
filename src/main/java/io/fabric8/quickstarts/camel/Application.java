@@ -56,11 +56,7 @@ public class Application extends RouteBuilder {
     public void configure() throws Exception {
 
     	from("servlet:///cbr")
-  		.choice()
-    			.when(header("site").isEqualTo(simple("{{cbr.headerNewVersion}}")))
-    					.to("http4://{{cbr.urlNewVersion}}?bridgeEndpoint=true&throwExceptionOnFailure=false")
-				.otherwise()
-					.to("http4://{{cbr.urlDefaultVersion}}?bridgeEndpoint=true&throwExceptionOnFailure=false");
+  				.to("http4://{{cbr.urlDefaultVersion}}?bridgeEndpoint=true&throwExceptionOnFailure=false");
 
         // Trigger run right after startup. No Servlet request required.
         from("servlet:///props").transform(simple(
